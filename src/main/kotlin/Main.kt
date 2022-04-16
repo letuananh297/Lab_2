@@ -1,5 +1,5 @@
 fun main() {
-    val red = Color(255.0,0.0,0.0)
+    val red = Color(255.0, 0.0, 0.0)
     val green = Color(0.0, 255.0, 0.0)
     val blue = Color(0.0, 0.0, 255.0)
 

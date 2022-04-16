@@ -8,7 +8,7 @@ interface Shape2d {
     fun calcArea(): Double
 }
 
-interface ColoredShape2d: Shape2d {
-    val borderColor : Color
-    val fillColor : Color
+interface ColoredShape2d : Shape2d {
+    val borderColor: Color
+    val fillColor: Color
 }

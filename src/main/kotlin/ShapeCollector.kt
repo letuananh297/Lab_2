@@ -10,7 +10,7 @@ class ShapeCollector {
             null
         else {
             var min = listShape[0]
-            for(temp in listShape) {
+            for (temp in listShape) {
                 if (temp.calcArea() < min.calcArea()) {
                     min = temp
                 }
@@ -24,7 +24,7 @@ class ShapeCollector {
             null
         else {
             var max = listShape[0]
-            for(temp in listShape) {
+            for (temp in listShape) {
                 if (temp.calcArea() > max.calcArea()) {
                     max = temp
                 }
@@ -38,7 +38,7 @@ class ShapeCollector {
             0.0
         else {
             var sum = 0.0
-            for(temp in listShape) {
+            for (temp in listShape) {
                 sum += temp.calcArea()
             }
             return sum
@@ -54,7 +54,7 @@ class ShapeCollector {
                 if (temp.borderColor == color)
                     newList.add(temp)
             }
-            return  newList
+            return newList
         }
     }
 
@@ -83,7 +83,7 @@ class ShapeCollector {
         return count
     }
 
-    fun shapesGroupedByBorderColor(): Map<Color,List<ColoredShape2d>> {
+    fun shapesGroupedByBorderColor(): Map<Color, List<ColoredShape2d>> {
         return if (listShape.isEmpty())
             emptyMap()
         else {
@@ -95,7 +95,7 @@ class ShapeCollector {
         }
     }
 
-    fun shapesGroupedByFillColor(): Map<Color,List<ColoredShape2d>> {
+    fun shapesGroupedByFillColor(): Map<Color, List<ColoredShape2d>> {
         return if (listShape.isEmpty())
             emptyMap()
         else {
@@ -107,7 +107,7 @@ class ShapeCollector {
         }
     }
 
-    inline fun<reified T> shapesWithType() : List<ColoredShape2d> {
+    inline fun <reified T> shapesWithType(): List<ColoredShape2d> {
         return if (listShape.isEmpty())
             emptyList()
         else {

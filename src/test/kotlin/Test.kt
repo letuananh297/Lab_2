@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 
-val red = Color(255.0,0.0,0.0)
+val red = Color(255.0, 0.0, 0.0)
 val green = Color(0.0, 255.0, 0.0)
 val blue = Color(0.0, 0.0, 255.0)
 
@@ -77,7 +77,7 @@ internal class ShapeCollectorTest {
         collector2.addShape(rectangle1)
         collector2.addShape(triangle)
         assertNotSame(collector2.shapesWithBorderColor(red), emptyList<ColoredShape2d>())
-        assertEquals(collector2.shapesWithBorderColor(red), collector2.listShape.filter { it.borderColor == red} )
+        assertEquals(collector2.shapesWithBorderColor(red), collector2.listShape.filter { it.borderColor == red })
     }
 
     @Test
@@ -131,7 +131,7 @@ internal class ShapeCollectorTest {
         collector2.addShape(rectangle1)
         collector2.addShape(triangle)
         assertNotSame(collector2.shapesGroupedByBorderColor(), emptyMap<Color, List<ColoredShape2d>>())
-        assertEquals(collector2.shapesGroupedByBorderColor(), collector2.listShape.groupBy{it.borderColor})
+        assertEquals(collector2.shapesGroupedByBorderColor(), collector2.listShape.groupBy { it.borderColor })
     }
 
     @Test
