@@ -1,3 +1,4 @@
+@kotlinx.serialization.Serializable
 data class Color(val red: Double, val green: Double, val blue: Double) {
     override fun toString(): String {
         return "ColorRGB($red, $green, $blue)"

@@ -1,11 +1,11 @@
-class ShapeCollector {
-    val listShape: MutableList<ColoredShape2d> = mutableListOf()
+class ShapeCollector<T: ColoredShape2d> {
+    var listShape: MutableList<T> = mutableListOf()
 
-    fun addShape(shape: ColoredShape2d) {
+    fun addShape(shape: T) {
         listShape.add(shape)
     }
 
-    fun minArea(): Shape2d? {
+    fun minArea(): T? {
         return if (listShape.isEmpty())
             null
         else {
@@ -19,7 +19,7 @@ class ShapeCollector {
         }
     }
 
-    fun maxArea(): Shape2d? {
+    fun maxArea(): T? {
         return if (listShape.isEmpty())
             null
         else {
@@ -45,11 +45,11 @@ class ShapeCollector {
         }
     }
 
-    fun shapesWithBorderColor(color: Color): List<ColoredShape2d> {
+    fun shapesWithBorderColor(color: Color): List<T> {
         return if (listShape.isEmpty())
             emptyList()
         else {
-            val newList: MutableList<ColoredShape2d> = mutableListOf()
+            val newList: MutableList<T> = mutableListOf()
             for (temp in listShape) {
                 if (temp.borderColor == color)
                     newList.add(temp)
@@ -58,11 +58,11 @@ class ShapeCollector {
         }
     }
 
-    fun shapesWithFillColor(color: Color): List<ColoredShape2d> {
+    fun shapesWithFillColor(color: Color): List<T> {
         return if (listShape.isEmpty())
             emptyList()
         else {
-            val newList: MutableList<ColoredShape2d> = mutableListOf()
+            val newList: MutableList<T> = mutableListOf()
             for (temp in listShape) {
                 if (temp.fillColor == color)
                     newList.add(temp)
@@ -71,7 +71,7 @@ class ShapeCollector {
         }
     }
 
-    fun allShapes(): List<ColoredShape2d> {
+    fun allShapes(): List<T> {
         return listShape.toList()
     }
 
@@ -83,11 +83,11 @@ class ShapeCollector {
         return count
     }
 
-    fun shapesGroupedByBorderColor(): Map<Color, List<ColoredShape2d>> {
+    fun shapesGroupedByBorderColor(): Map<Color, List<T>> {
         return if (listShape.isEmpty())
             emptyMap()
         else {
-            val map = mutableMapOf<Color, List<ColoredShape2d>>()
+            val map = mutableMapOf<Color, List<T>>()
             for (shape in listShape) {
                 map[shape.borderColor] = shapesWithBorderColor(shape.borderColor)
             }
@@ -95,11 +95,11 @@ class ShapeCollector {
         }
     }
 
-    fun shapesGroupedByFillColor(): Map<Color, List<ColoredShape2d>> {
+    fun shapesGroupedByFillColor(): Map<Color, List<T>> {
         return if (listShape.isEmpty())
             emptyMap()
         else {
-            val map = mutableMapOf<Color, List<ColoredShape2d>>()
+            val map = mutableMapOf<Color, List<T>>()
             for (shape in listShape) {
                 map[shape.fillColor] = shapesWithFillColor(shape.fillColor)
             }
@@ -107,17 +107,25 @@ class ShapeCollector {
         }
     }
 
-    inline fun <reified T> shapesWithType(): List<ColoredShape2d> {
+    inline fun <reified Type> shapesWithType(): List<T> {
         return if (listShape.isEmpty())
             emptyList()
         else {
-            val newList = mutableListOf<ColoredShape2d>()
+            val newList = mutableListOf<T>()
             for (shape in listShape) {
-                if (shape is T) {
+                if (shape is Type) {
                     newList.add(shape)
                 }
             }
             return newList
         }
+    }
+
+    fun addAll(shapes: ShapeCollector<T>) {
+        listShape += shapes.allShapes()
+    }
+
+    fun getSorted(comparator: Comparator<T>): List<T> {
+        return listShape.sortedWith(comparator)
     }
 }

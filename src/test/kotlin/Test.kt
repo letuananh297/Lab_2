@@ -16,7 +16,7 @@ val triangle: Triangle = Triangle(3.0, 4.0, 5.0, green, red)
 internal class ShapeCollectorTest {
     @Test
     fun testAddShape() {
-        val collector = ShapeCollector()
+        val collector = ShapeCollector<ColoredShape2d>()
         assertSame(collector.listShape.toList(), emptyList<ColoredShape2d>())
 
         collector.addShape(circle1)
@@ -26,10 +26,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testMinArea() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertNull(collector1.minArea())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(square)
         collector2.addShape(rectangle1)
@@ -41,10 +41,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testMaxArea() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertNull(collector1.maxArea())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(square)
         collector2.addShape(rectangle1)
@@ -56,7 +56,7 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testSumArea() {
-        val collector = ShapeCollector()
+        val collector = ShapeCollector<ColoredShape2d>()
         collector.addShape(circle1)
         collector.addShape(square)
         collector.addShape(rectangle1)
@@ -68,10 +68,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testShapesWithBorderColor() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.shapesWithBorderColor(red), emptyList<ColoredShape2d>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(square)
         collector2.addShape(rectangle1)
@@ -82,10 +82,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testShapesWithFillColor() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.shapesWithFillColor(green), emptyList<ColoredShape2d>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(square)
         collector2.addShape(rectangle2)
@@ -96,10 +96,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testAllShapes() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.allShapes(), emptyList<ColoredShape2d>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(square)
         collector2.addShape(rectangle2)
@@ -111,7 +111,7 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testNumberShapes() {
-        val collector = ShapeCollector()
+        val collector = ShapeCollector<ColoredShape2d>()
         collector.addShape(circle1)
         collector.addShape(square)
         collector.addShape(rectangle2)
@@ -122,10 +122,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testShapeGroupedByBorderColor() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.shapesGroupedByBorderColor(), emptyMap<Color, List<ColoredShape2d>>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(circle1)
         collector2.addShape(circle2)
         collector2.addShape(rectangle1)
@@ -136,10 +136,10 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testShapeGroupedByFillColor() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.shapesGroupedByFillColor(), emptyMap<Color, List<ColoredShape2d>>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(square)
         collector2.addShape(circle2)
         collector2.addShape(rectangle1)
@@ -150,15 +150,65 @@ internal class ShapeCollectorTest {
 
     @Test
     fun testShapesWithType() {
-        val collector1 = ShapeCollector()
+        val collector1 = ShapeCollector<ColoredShape2d>()
         assertSame(collector1.shapesWithType<Circle>(), emptyList<ColoredShape2d>())
 
-        val collector2 = ShapeCollector()
+        val collector2 = ShapeCollector<ColoredShape2d>()
         collector2.addShape(square)
         collector2.addShape(circle2)
         collector2.addShape(circle2)
         collector2.addShape(triangle)
         assertNotSame(collector2.shapesWithType<Circle>(), emptyList<ColoredShape2d>())
         assertEquals(collector2.shapesWithType<Circle>(), collector2.listShape.filterIsInstance<Circle>())
+    }
+
+    @Test
+    fun testAddAll() {
+        val collector1 = ShapeCollector<ColoredShape2d>()
+        collector1.addShape(circle1)
+        collector1.addShape(square)
+
+        val collector2 = ShapeCollector<ColoredShape2d>()
+        collector2.addShape(rectangle1)
+        collector2.addShape(triangle)
+
+        collector1.addAll(collector2)
+
+        assertEquals(collector1.listShape[0], circle1)
+        assertEquals(collector1.listShape[1], square)
+        assertEquals(collector1.listShape[2], rectangle1)
+        assertEquals(collector1.listShape[3], triangle)
+    }
+
+    @Test
+    fun testGetSorted() {
+        val collector1 = ShapeCollector<ColoredShape2d>()
+        collector1.addShape(square)
+        collector1.addShape(rectangle1)
+        collector1.addShape(rectangle2)
+        collector1.addShape(triangle)
+
+        val list = collector1.getSorted(compareBy{it.calcArea()})
+        assertEquals(list[0], triangle)
+        assertEquals(list[1], rectangle2)
+        assertEquals(list[2], rectangle1)
+        assertEquals(list[3], square)
+    }
+
+    @Test
+    fun testSerialization() {
+        val collector = ShapeCollector<ColoredShape2d>()
+        collector.addShape(square)
+        collector.addShape(triangle)
+        val expected = "[{\"type\":\"Square\",\"a\":7.0,\"borderColor\":{\"red\":0.0,\"green\":0.0,\"blue\":255.0},\"fillColor\":{\"red\":255.0,\"green\":0.0,\"blue\":0.0}},{\"type\":\"Triangle\",\"a\":3.0,\"b\":4.0,\"c\":5.0,\"borderColor\":{\"red\":0.0,\"green\":255.0,\"blue\":0.0},\"fillColor\":{\"red\":255.0,\"green\":0.0,\"blue\":0.0}}]"
+        assertEquals(JsonSerialization.serialization(collector.listShape), expected)
+    }
+
+    @Test
+    fun testDeserialization() {
+        val stringToDecode = "[{\"type\":\"Circle\",\"r\":2.0,\"borderColor\":{\"red\":255.0,\"green\":0.0,\"blue\":0.0},\"fillColor\":{\"red\":0.0,\"green\":255.0,\"blue\":0.0}},{\"type\":\"Square\",\"a\":7.0,\"borderColor\":{\"red\":0.0,\"green\":0.0,\"blue\":255.0},\"fillColor\":{\"red\":255.0,\"green\":0.0,\"blue\":0.0}}]"
+        val listShape = JsonSerialization.deserialization(stringToDecode)
+        assertEquals(listShape[0], Circle(2.0, red, green))
+        assertEquals(listShape[1], Square(7.0, blue, red))
     }
 }

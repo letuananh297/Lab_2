@@ -1,5 +1,6 @@
 import kotlin.math.sqrt
 
+@kotlinx.serialization.Serializable
 data class Circle(
     val r: Double,
     override val borderColor: Color,
@@ -18,6 +19,7 @@ data class Circle(
     }
 }
 
+@kotlinx.serialization.Serializable
 data class Square(
     val a: Double,
     override val borderColor: Color,
@@ -36,6 +38,7 @@ data class Square(
     }
 }
 
+@kotlinx.serialization.Serializable
 data class Rectangle(
     val a: Double,
     val b: Double,
@@ -55,6 +58,7 @@ data class Rectangle(
     }
 }
 
+@kotlinx.serialization.Serializable
 data class Triangle(
     val a: Double,
     val b: Double,
