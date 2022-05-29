@@ -121,11 +121,11 @@ class ShapeCollector<T: ColoredShape2d> {
         }
     }
 
-    fun addAll(shapes: ShapeCollector<T>) {
-        listShape += shapes.allShapes()
+    fun addAll(shapes: List<T>) {
+        listShape += shapes
     }
 
-    fun getSorted(comparator: Comparator<T>): List<T> {
+    fun getSorted(comparator: Comparator<in T>): List<T> {
         return listShape.sortedWith(comparator)
     }
 }

@@ -168,11 +168,9 @@ internal class ShapeCollectorTest {
         collector1.addShape(circle1)
         collector1.addShape(square)
 
-        val collector2 = ShapeCollector<ColoredShape2d>()
-        collector2.addShape(rectangle1)
-        collector2.addShape(triangle)
+        val newListShape = listOf(rectangle2, triangle)
 
-        collector1.addAll(collector2)
+        collector1.addAll(newListShape)
 
         assertEquals(collector1.listShape[0], circle1)
         assertEquals(collector1.listShape[1], square)
